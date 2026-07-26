@@ -1,0 +1,20 @@
+# CCS / TI Build Output
+Debug/
+**/Debug/
+
+# Clangd index cache
+.clangd/.cache/
+
+# CCS auto-generated files
+ccsObjs.opt
+device.cmd.genlibs
+device_linker.cmd
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Editor temp files
+*.swp
+*.swo
+*~
