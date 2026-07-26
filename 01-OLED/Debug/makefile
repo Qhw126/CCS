@@ -121,10 +121,16 @@ EXE_OUTPUTS += \
 EXE_OUTPUTS__QUOTED += \
 "01-OLED.out" 
 
+BIN_OUTPUTS += \
+01-OLED.txt 
+
+BIN_OUTPUTS__QUOTED += \
+"01-OLED.txt" 
+
 
 # All Target
 all: $(OBJS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "01-OLED.out"
+	@$(MAKE) --no-print-directory -Onone "01-OLED.out" secondary-outputs
 
 # Tool invocations
 01-OLED.out: $(OBJS) $(GEN_CMDS)
@@ -133,12 +139,20 @@ all: $(OBJS) $(GEN_CMDS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
+01-OLED.txt: $(EXE_OUTPUTS)
+	@echo 'Arm Hex Utility - building secondary target: "$@"'
+	"D:/ti/ccs2100/ccs/tools/compiler/ti-cgt-armllvm_5.1.1.LTS/bin/tiarmhex.exe" --diag_wrap=off --ti_txt -o "01-OLED.txt" $(EXE_OUTPUTS__QUOTED)
+	@echo 'Finished building secondary target: "$@"'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
+	-$(RM) $(GEN_MISC_FILES__QUOTED)$(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
 	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" 
 	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" 
 	-@echo ' '
+
+secondary-outputs: $(BIN_OUTPUTS)
 
 .PHONY: all clean dependents
 .SECONDARY:
